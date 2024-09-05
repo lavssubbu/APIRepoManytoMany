@@ -21,6 +21,10 @@ namespace APIRepoPattern.Service
         {
             return await _courseRepository.GetByIdAsync(courseId);
         }
+        public async Task<Course> GetCourseByNameAsync(string name)
+        {
+            return await _courseRepository.GetByNameAsync(name);
+        }
 
         public async Task AddCourseAsync(Course course)
         {

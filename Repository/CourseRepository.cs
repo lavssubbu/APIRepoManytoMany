@@ -40,6 +40,13 @@ namespace APIRepoPattern.Repository
            .ThenInclude(sc => sc.Student)
            .FirstOrDefaultAsync(c => c.CourseId == courseId) ?? throw new NullReferenceException();
         }
+        public async Task<Course> GetByNameAsync(string name)
+        {
+            return await _context.Courses
+           .Include(c => c.StudentCourses!)
+           .ThenInclude(sc => sc.Student)
+           .FirstOrDefaultAsync(c => c.Title == name) ?? throw new NullReferenceException();
+        }
 
         public async Task UpdateAsync(Course course)
         {
@@ -48,8 +55,9 @@ namespace APIRepoPattern.Repository
             {
                 throw new KeyNotFoundException("Course not found.");
             }
-
-            _context.Entry(existingCourse).CurrentValues.SetValues(course);
+            existingCourse.Title = course.Title;
+            _context.Courses.Update(course);
+           // _context.Entry(existingCourse).CurrentValues.SetValues(course);
             await _context.SaveChangesAsync();
         }
     }

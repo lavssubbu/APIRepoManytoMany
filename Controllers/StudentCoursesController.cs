@@ -20,6 +20,7 @@ namespace APIRepoPattern.Controllers
 
         // POST: api/StudentCourses
         [HttpPost]
+
         public async Task<IActionResult> EnrollStudentInCourse([FromBody] StudentCourse studentCourse)
         {
             if (studentCourse == null)
@@ -89,10 +90,10 @@ namespace APIRepoPattern.Controllers
         }
 
         // GET: api/StudentCourses/Course/5
-        [HttpGet("Course/{courseId}")]
-        public async Task<IActionResult> GetCourseStudentsByCourseId(int courseId)
+        [HttpGet("Course/{courseName}")]
+        public async Task<IActionResult> GetCourseStudentsByCourseId(string courseName)
         {
-            var course = await _courseService.GetCourseByIdAsync(courseId);
+            var course = await _courseService.GetCourseByNameAsync(courseName);
 
             if (course == null) return NotFound();
 
