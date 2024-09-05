@@ -43,7 +43,13 @@ namespace APIRepoPattern.Repository
 
         public async Task UpdateAsync(Course course)
         {
-            _context.Courses.Update(course);
+            var existingCourse = await _context.Courses.FindAsync(course.CourseId);
+            if (existingCourse == null)
+            {
+                throw new KeyNotFoundException("Course not found.");
+            }
+
+            _context.Entry(existingCourse).CurrentValues.SetValues(course);
             await _context.SaveChangesAsync();
         }
     }
